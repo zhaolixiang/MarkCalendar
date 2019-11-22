@@ -7,8 +7,9 @@ import com.handsomemark.calendarlib.Utils;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Comparator;
 
-public class CalendarDate implements Serializable {
+public class CalendarDate implements Serializable{
     private static final long serialVersionUID = 1L;
     public int year;
     public int month;  //1~12
@@ -152,4 +153,24 @@ public class CalendarDate implements Serializable {
         return new CalendarDate(year, month, day);
     }
 
+
+    public int big(CalendarDate others) {
+        Calendar c1 = Calendar.getInstance();
+        c1.set(Calendar.YEAR, year);
+        c1.set(Calendar.MONTH, month - 1);
+        c1.set(Calendar.DAY_OF_MONTH, day);
+
+
+        Calendar c2 = Calendar.getInstance();
+        c2.set(Calendar.YEAR, others.year);
+        c2.set(Calendar.MONTH, others.month - 1);
+        c2.set(Calendar.DAY_OF_MONTH, others.day);
+
+        if(c1.after(c2)){
+            return 1;
+        }else if(c2.after(c1)){
+            return -1;
+        }
+        return 0;
+    }
 }

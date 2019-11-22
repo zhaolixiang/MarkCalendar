@@ -72,6 +72,46 @@ public final class Utils {
     public static int getDay() {
         return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     }
+    //获取指定间隔月数的 CalendarDate
+    public static CalendarDate getNextMonthCalendarDate(int year,int month,int month_position){
+        Calendar calendar=Calendar.getInstance();
+//        ForLog.e("设置的数据：",cd.year, cd.month - 1, cd.day);
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month-1);
+        calendar.set(Calendar.DAY_OF_MONTH,1);
+//        calendar.set(cd.year, cd.month - 1, cd.day);
+        ForLog.e("修改前",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+//        calendar.set(Calendar.DATE,);
+        calendar.add(Calendar.MONTH,month_position);
+        ForLog.e("修改后",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+
+        CalendarDate cd2=new CalendarDate();
+        cd2.setYear(calendar.get(Calendar.YEAR));
+        cd2.setMonth(calendar.get(Calendar.MONTH)+1);
+        cd2.setDay(calendar.get(Calendar.DAY_OF_MONTH));
+        return cd2;
+    }
+
+
+    //获取指定间隔天数的 CalendarDate
+    public static CalendarDate getNextCalendarDate(CalendarDate cd,int day){
+        Calendar calendar=Calendar.getInstance();
+//        ForLog.e("设置的数据：",cd.year, cd.month - 1, cd.day);
+        calendar.set(Calendar.YEAR,cd.year);
+        calendar.set(Calendar.MONTH,cd.month-1);
+        calendar.set(Calendar.DAY_OF_MONTH,cd.day);
+//        calendar.set(cd.year, cd.month - 1, cd.day);
+        ForLog.e("修改前",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+//        calendar.set(Calendar.DATE,);
+        calendar.add(Calendar.DAY_OF_YEAR,day);
+        ForLog.e("修改后",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH));
+
+        CalendarDate cd2=new CalendarDate();
+        cd2.setYear(calendar.get(Calendar.YEAR));
+        cd2.setMonth(calendar.get(Calendar.MONTH)+1);
+        cd2.setDay(calendar.get(Calendar.DAY_OF_MONTH));
+        return cd2;
+    }
 
     /**
      * 得到当前月第一天在其周的位置
@@ -85,6 +125,9 @@ public final class Utils {
         Calendar cal = Calendar.getInstance();
         cal.setTime(getDateFromString(year, month));
         int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if(type==null){
+            type=CalendarAttr.WeekArrayType.Monday;
+        }
         if (type == CalendarAttr.WeekArrayType.Sunday) {
             return week_index;
         } else {
